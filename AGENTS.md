@@ -1,3 +1,7 @@
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
 # AGENTS.md
 
 ## Project Overview
@@ -19,4 +23,4 @@ RTI Assistant is an AI-powered assistant that helps users understand and draft R
 
 ## Contributors
 
-* Dimple Reddy
+* dimple reddy 
