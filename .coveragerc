@@ -1,0 +1,12 @@
+[run]
+source = .
+
+[report]
+show_missing = True
+fail_under = 51
+
+[xml]
+output = coverage.xml
+
+[html]
+directory = htmlcov

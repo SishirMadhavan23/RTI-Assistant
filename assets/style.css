@@ -1,0 +1,173 @@
+.stApp{
+    background:
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a
+    );
+    color:#f8fafc;
+}
+
+/* ---------- GLOBAL TEXT ---------- */
+
+html,
+body,
+p,
+span,
+label,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    color:#f8fafc !important;
+}
+
+/* ---------- SIDEBAR ---------- */
+
+[data-testid="stSidebar"]{
+    background:#08111f;
+    border-right:1px solid #1e293b;
+}
+
+/* Sidebar text */
+[data-testid="stSidebar"] *{
+    color:#f8fafc !important;
+}
+
+/* ---------- TITLE ---------- */
+
+.main-title{
+    font-size:58px;
+    font-weight:800;
+    text-align:center;
+    background:
+    linear-gradient(
+    90deg,
+    #38bdf8,
+    #8b5cf6,
+    #ec4899
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:8px;
+}
+
+/* ---------- SUBTITLE ---------- */
+
+.subtitle{
+    text-align:center;
+    color:#e2e8f0 !important;
+    font-size:22px;
+    margin-bottom:35px;
+}
+
+/* ---------- INPUT LABELS ---------- */
+
+.stTextInput label,
+.stTextArea label,
+label{
+    color:#ffffff !important;
+    font-weight:600;
+    font-size:17px;
+}
+
+/* ---------- INPUT BOX ---------- */
+
+.stTextInput input{
+    background:#0f172a !important;
+    color:#ffffff !important;
+    border:2px solid #38bdf8 !important;
+    border-radius:16px !important;
+    padding:12px !important;
+}
+
+/* ---------- TEXTAREA ---------- */
+
+.stTextArea textarea{
+    background:#0f172a !important;
+    color:#ffffff !important;
+    border:2px solid #38bdf8 !important;
+    border-radius:16px !important;
+}
+
+/* Placeholder text */
+.stTextInput input::placeholder,
+.stTextArea textarea::placeholder{
+    color:#cbd5e1 !important;
+}
+
+/* ---------- USER CHAT ---------- */
+
+.chat-user{
+    background:
+    linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6
+    );
+    color:#ffffff !important;
+    padding:18px;
+    border-radius:18px;
+    margin:12px 0;
+    font-size:17px;
+    box-shadow:
+    0 0 15px rgba(59,130,246,.35);
+}
+
+/* ---------- AI CHAT ---------- */
+
+.chat-ai{
+    background:#111827;
+    color:#ffffff !important;
+    border:1px solid #38bdf8;
+    padding:18px;
+    border-radius:18px;
+    margin:12px 0;
+    font-size:17px;
+    box-shadow:
+    0 0 18px rgba(56,189,248,.25);
+}
+
+/* ---------- BUTTON ---------- */
+
+.stButton button{
+    background:
+    linear-gradient(
+    90deg,
+    #ec4899,
+    #8b5cf6
+    );
+    color:white !important;
+    border:none;
+    border-radius:14px;
+    padding:12px 25px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.stButton button:hover{
+    transform:scale(1.03);
+    box-shadow:
+    0 0 18px #8b5cf6;
+}
+
+/* ---------- FEATURE CARDS ---------- */
+
+[data-testid="stAlertContainer"]{
+    background:#0f172a !important;
+    border-radius:14px;
+    color:white !important;
+}
+
+/* ---------- EXPANDER ---------- */
+
+.streamlit-expanderHeader{
+    color:white !important;
+/* ---------- SECTION TITLES ---------- */
+
+}    color:#ffffff !important;
+h2,
+h3{

@@ -1,0 +1,8 @@
+title = "RTI Assistant Secret Scan Config"
+
+[allowlist]
+description = "Project-level allowlist for known safe paths"
+paths = [
+  '''\.pytest_cache/''',
+  '''\.ruff_cache/''',
+]

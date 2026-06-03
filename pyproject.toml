@@ -1,0 +1,63 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+check_untyped_defs = true
+follow_imports = "skip"
+files = ["app.py", "ingest.py"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv"]
+skips = ["B101"]
+
+[tool.pylint.main]
+py-version = "3.11"
+ignore = ["venv", ".venv", ".pytest_cache", ".ruff_cache"]
+
+[tool.pylint.messages_control]
+disable = [
+  "missing-module-docstring",
+  "missing-function-docstring",
+  "invalid-name",
+  "wrong-import-order",
+  "import-error",
+  "no-member",
+]
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.vulture]
+paths = ["app.py", "ingest.py", "tests"]
+min_confidence = 80
+ignore_names = ["load_db", "load_model", "test_*"]
+sort_by_size = true
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203", "W503"]
+exclude = [".git", "__pycache__", ".pytest_cache", ".ruff_cache", "venv", ".venv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=. --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=51"
+
+[tool.coverage.run]
+source = ["."]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 51
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.coverage.html]
+directory = "htmlcov"
