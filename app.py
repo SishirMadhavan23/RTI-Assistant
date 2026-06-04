@@ -90,8 +90,7 @@ query = st.text_input("Ask your RTI Question", value=selected_question)
 
 # ---------------- PROCESS QUERY ----------------
 if query and (
-    len(st.session_state.history) == 0
-    or st.session_state.history[-1]["question"] != query
+    len(st.session_state.history) == 0 or st.session_state.history[-1]["question"] != query
 ):
 
     with st.spinner("AI is thinking..."):
@@ -99,9 +98,7 @@ if query and (
         # Retrieve PDF chunks
         docs = db.similarity_search(query, k=3)
 
-        context = "\n\n".join(
-            [doc.page_content for doc in docs]
-        )
+        context = "\n\n".join([doc.page_content for doc in docs])
 
         prompt = f"""
 You are an RTI legal assistant.
@@ -133,30 +130,23 @@ Answer:
             temperature=0.2,
             do_sample=False,
             repetition_penalty=1.2,
-            truncation=True
+            truncation=True,
         )
 
         generated = result[0]["generated_text"]
 
         # Remove prompt
         if prompt in generated:
-            answer = generated.replace(
-                prompt,
-                ""
-            ).strip()
+            answer = generated.replace(prompt, "").strip()
         else:
             answer = generated.strip()
 
         # Remove tags
         if "Answer:" in answer:
-            answer = answer.split(
-                "Answer:"
-            )[-1].strip()
+            answer = answer.split("Answer:")[-1].strip()
 
         if "Question:" in answer:
-            answer = answer.split(
-                "Question:"
-            )[0].strip()
+            answer = answer.split("Question:")[0].strip()
 
         # Remove duplicate lines
         cleaned = []
@@ -164,29 +154,16 @@ Answer:
         for line in answer.split("\n"):
             line = line.strip()
 
-            if (
-                line
-                and line not in cleaned
-                and len(line) > 2
-            ):
+            if line and line not in cleaned and len(line) > 2:
                 cleaned.append(line)
 
         answer = "\n".join(cleaned)
 
         if len(answer) < 10:
-            answer = (
-                "This information is not clearly "
-                "available in the provided RTI documents."
-            )
+            answer = "This information is not clearly " "available in the provided RTI documents."
 
         # Save ONCE only
-        st.session_state.history.append(
-            {
-                "question": query,
-                "answer": answer,
-                "docs": docs
-            }
-        )
+        st.session_state.history.append({"question": query, "answer": answer, "docs": docs})
 # ---------------- DISPLAY CHAT ----------------
 for idx, item in enumerate(st.session_state.history):
 
@@ -197,7 +174,7 @@ for idx, item in enumerate(st.session_state.history):
         {item['question']}
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
     st.markdown(
@@ -207,7 +184,7 @@ for idx, item in enumerate(st.session_state.history):
         {item['answer']}
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
     # Sources Used
@@ -219,18 +196,13 @@ for idx, item in enumerate(st.session_state.history):
 
             for i, doc in enumerate(item["docs"]):
 
-                source = doc.metadata.get(
-                    "source",
-                    "Unknown"
-                )
+                source = doc.metadata.get("source", "Unknown")
 
                 if source not in shown:
 
                     shown.append(source)
 
-                    st.write(
-                        f"📄 {os.path.basename(source)}"
-                    )
+                    st.write(f"📄 {os.path.basename(source)}")
 
                     with open(source, "rb") as file:
 
@@ -239,7 +211,7 @@ for idx, item in enumerate(st.session_state.history):
                             data=file,
                             file_name=os.path.basename(source),
                             mime="application/pdf",
-                            key=f"pdf_{idx}_{i}"
+                            key=f"pdf_{idx}_{i}",
                         )
 
 # NEXT QUESTION BUTTON
@@ -253,11 +225,7 @@ if st.button("Generate"):
 # RTI DRAFT GENERATOR
 st.subheader("RTI Draft Generator")
 
-draft_issue = st.text_area(
-    "Describe your issue",
-    height=120,
-    key="draft_issue"
-)
+draft_issue = st.text_area("Describe your issue", height=120, key="draft_issue")
 
 if st.button("Generate Draft"):
 
@@ -268,14 +236,9 @@ if st.button("Generate Draft"):
 
         with st.spinner("Generating RTI application..."):
 
-            draft_docs = db.similarity_search(
-                draft_issue,
-                k=3
-            )
+            draft_docs = db.similarity_search(draft_issue, k=3)
 
-            draft_context = "\n\n".join(
-                [doc.page_content for doc in draft_docs]
-            )
+            draft_context = "\n\n".join([doc.page_content for doc in draft_docs])
 
             draft_prompt = f"""
 You are an expert RTI legal assistant.
@@ -299,30 +262,20 @@ RTI Application:
                 temperature=0.2,
                 do_sample=False,
                 repetition_penalty=1.2,
-                truncation=True
+                truncation=True,
             )
 
             generated = draft_result[0]["generated_text"]
 
-            draft = generated.replace(
-                draft_prompt,
-                ""
-            ).strip()
+            draft = generated.replace(draft_prompt, "").strip()
 
-            st.markdown(
-                "### Generated RTI Application"
-            )
+            st.markdown("### Generated RTI Application")
 
-            st.text_area(
-                "",
-                value=draft,
-                height=400,
-                key="draft_output"
-            )
+            st.text_area("", value=draft, height=400, key="draft_output")
 
             st.download_button(
                 label="Download Draft",
                 data=draft,
                 file_name="RTI_Application.txt",
-                mime="text/plain"
+                mime="text/plain",
             )
