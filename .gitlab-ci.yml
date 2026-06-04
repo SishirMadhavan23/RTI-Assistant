@@ -1,19 +1,33 @@
 stages:
   - test
+  - lint
+  - format
+  - type_check
+
+lint:
+  stage: lint
+  image: python:3.11
+  script:
+    - pip install ruff
+    - ruff check .
+
+format:
+  stage: format
+  image: python:3.11
+  script:
+    - pip install black
+    - black --check .
+
+type_check:
+  stage: type_check
+  image: python:3.11
+  script:
+    - pip install mypy
+    - mypy .
 
 test:
   stage: test
   image: python:3.11
-
-  before_script:
-    - pip install -r requirements.txt
-    - pip install pytest pytest-cov
-
   script:
-    - pytest --cov=. --cov-report=xml
-
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+    - pip install pytest
+    - pytest
