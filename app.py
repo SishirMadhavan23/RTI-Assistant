@@ -298,7 +298,40 @@ RTI Application:
 
             generated = draft_result[0]["generated_text"]
 
-            draft = generated.replace(draft_prompt, "").strip()
+            draft = f"""
+To,
+The Public Information Officer (PIO)
+[Concerned Department]
+
+Subject: RTI Application regarding {draft_issue[:50]}
+
+Respected Sir/Madam,
+
+Under the Right to Information Act, 2005, I seek the following information regarding the issue described below:
+
+Issue:
+{draft_issue}
+
+Information Requested:
+
+1. Please provide all records related to the above issue.
+2. Please provide the action taken report.
+3. Please provide copies of relevant orders, notices, and correspondence.
+4. Please provide details of the responsible officer/department.
+5. Please provide the current status and expected resolution timeline.
+
+I request that the information be provided within the period prescribed under the RTI Act, 2005.
+
+Yours faithfully,
+
+[Applicant Name]
+[Address]
+[Mobile Number]
+[Email Address]
+
+Date: __________
+Place: __________
+"""
 
             st.markdown("### Generated RTI Application")
 
