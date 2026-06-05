@@ -204,15 +204,23 @@ for idx, item in enumerate(st.session_state.history):
 
                     st.write(f"📄 {os.path.basename(source)}")
 
-                    with open(source, "rb") as file:
+                    try:
+                        if os.path.exists(source):
+                            with open(source, "rb") as file:
+                                st.download_button(
+                                    label=f"Download {os.path.basename(source)}",
+                                    data=file.read(),
+                                    file_name=os.path.basename(source),
+                                    mime="application/pdf",
+                                    key=f"pdf_{idx}_{i}",
+                                )
+                        else:
+                            st.info(
+                                f"Source document '{os.path.basename(source)}' is not available on the deployment server."
+                            )
 
-                        st.download_button(
-                            label=f"Open {os.path.basename(source)}",
-                            data=file,
-                            file_name=os.path.basename(source),
-                            mime="application/pdf",
-                            key=f"pdf_{idx}_{i}",
-                        )
+                    except Exception as e:
+                        st.warning(f"Unable to open source file: {e}")
 
 # NEXT QUESTION BUTTON
 if st.button("Generate"):
