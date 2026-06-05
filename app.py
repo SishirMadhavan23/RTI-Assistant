@@ -73,7 +73,10 @@ def load_db():
 
 @st.cache_resource
 def load_model():
-    return pipeline("text-generation", model="gpt2")
+    return pipeline(
+        "text2text-generation",
+        model="google/flan-t5-base"
+    )
 
 
 db = load_db()
