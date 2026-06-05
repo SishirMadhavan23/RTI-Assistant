@@ -75,7 +75,7 @@ def load_db():
 def load_model():
     return pipeline(
         "text2text-generation",
-        model="google/flan-t5-base"
+        model="gpt2"
     )
 
 
