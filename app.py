@@ -3,7 +3,9 @@ import os
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 import streamlit as st
-from transformers import pipeline
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+MODEL_NAME = "google/flan-t5-base"
 
 # ---------------- PAGE CONFIG ----------------
 
@@ -73,10 +75,46 @@ def load_db():
 
 @st.cache_resource
 def load_model():
-    return pipeline(
-        "text2text-generation",
-        model="gpt2"
-    )
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
+
+    class Seq2SeqGenerator:
+        def __call__(
+            self,
+            prompt,
+            max_new_tokens=512,
+            temperature=0.2,
+            do_sample=False,
+            repetition_penalty=1.2,
+            truncation=True,
+        ):
+            max_input_tokens = getattr(tokenizer, "model_max_length", 512)
+
+            if max_input_tokens > 100_000:
+                max_input_tokens = 1024
+
+            inputs = tokenizer(
+                prompt,
+                return_tensors="pt",
+                truncation=truncation,
+                max_length=min(max_input_tokens, 1024),
+            )
+
+            generate_kwargs = {
+                "max_new_tokens": min(max_new_tokens, 800),
+                "do_sample": do_sample,
+                "repetition_penalty": repetition_penalty,
+            }
+
+            if do_sample:
+                generate_kwargs["temperature"] = temperature
+
+            output_ids = model.generate(**inputs, **generate_kwargs)
+            generated_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+
+            return [{"generated_text": generated_text}]
+
+    return Seq2SeqGenerator()
 
 
 db = load_db()
