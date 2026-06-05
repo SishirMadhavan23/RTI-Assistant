@@ -251,9 +251,9 @@ if st.button("Generate Draft"):
             draft_prompt = f"""
 You are an expert RTI legal assistant.
 
-Use ONLY the provided RTI documents.
+Use ONLY the provided RTI documents and the citizen's issue.
 
-Generate a formal RTI application.
+Generate a complete RTI application in proper Indian RTI letter format.
 
 RTI Context:
 {draft_context}
@@ -261,13 +261,33 @@ RTI Context:
 Citizen Issue:
 {draft_issue}
 
+Instructions:
+- Start with "To,"
+- Address the Public Information Officer (PIO)
+- Include a clear Subject line
+- Begin with "Respected Sir/Madam,"
+- Mention the Right to Information Act, 2005
+- Convert the citizen's issue into 5-8 numbered information requests
+- Use formal government letter language
+- End with:
+  Yours faithfully,
+  [Applicant Name]
+  [Address]
+  [Mobile Number]
+  [Email]
+  Date: __________
+  Place: __________
+
+Return ONLY the RTI application letter.
+Do not provide explanations, notes, commentary, or any text outside the letter.
+
 RTI Application:
 """
 
             draft_result = generator(
                 draft_prompt,
-                max_new_tokens=1200,
-                temperature=0.2,
+                max_new_tokens=800,
+                temperature=0.1,
                 do_sample=False,
                 repetition_penalty=1.2,
                 truncation=True,
